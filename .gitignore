@@ -1,0 +1,15 @@
+*.exe
+gocrawler
+*.test
+*.out
+results.json
+*.csv
+*.log
+
+go.work
+
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
