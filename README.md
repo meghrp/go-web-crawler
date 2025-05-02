@@ -27,6 +27,26 @@ go build -o gocrawler
 
 ## Usage
 
+### Available Flags
+```
+-seed        Required. Starting URL for crawling
+-depth       Maximum link depth to crawl (default: 1)
+-workers     Number of concurrent crawlers (default: 2)
+-max         Maximum pages to crawl (default: 20)
+-delay       Seconds between requests (default: 1)
+-timeout     Request timeout in seconds (default: 10)
+-format      Output format: json or csv (default: json)
+-output      Output filename (default: results.json)
+-agent       Custom User-Agent string (default: GoCrawler/1.0)
+-robots      Respect robots.txt rules (default: true)
+-news        Extract news article content (default: false)
+-verbose     Show detailed output (default: false)
+-stay-domain Stay on the same domain (default: true)
+-filter      Only crawl URLs containing this string
+-seed-only   Crawl only the seed URL (default: false)
+```
+
+### Examples
 ```bash
 # Basic usage with a seed URL
 ./gocrawler -seed https://example.com
