@@ -1,6 +1,6 @@
-# GoCrawler
+# Go Web Crawler
 
-A high-performance web crawler written in Go, demonstrating concurrent programming and modern Go practices.
+A high-performance web crawler written in Go
 
 ## Features
 
@@ -14,7 +14,7 @@ A high-performance web crawler written in Go, demonstrating concurrent programmi
 ## Installation
 
 ```bash
-# Clone the repository
+# Clone repo
 git clone https://github.com/your-username/gocrawler.git
 cd gocrawler
 
@@ -80,32 +80,6 @@ By default, the crawler:
 
 You can make the crawler even more focused by using the `-filter` option to only crawl URLs containing a specific string, or use `-seed-only` to crawl just the single URL you provide.
 
-## Example Use Cases
-
-### Crawling a News Website
-
-```bash
-./gocrawler -seed https://news-website.com -news -depth 2 -max 50 -output news_articles.json -verbose
-```
-
-This command crawls a news website, extracting article content, limiting to depth 2 and maximum 50 pages, saving results in JSON format, and showing verbose output.
-
-### Creating a Site Map
-
-```bash
-./gocrawler -seed https://example.com -depth 3 -max 1000 -format csv -output sitemap.csv
-```
-
-This command crawls a website to a depth of 3, collecting up to 1000 URLs, and outputs a CSV file that can be used as a sitemap.
-
-### Archiving a Blog
-
-```bash
-./gocrawler -seed https://blog.example.com -depth 5 -max 500 -output blog_archive.json -delay 2
-```
-
-This command crawls a blog with a depth of 5, collecting up to 500 pages, with a 2-second delay between requests to be extra polite to the server.
-
 ## Project Structure
 
 - `main.go`: Entry point and command-line interface
@@ -121,7 +95,3 @@ This command crawls a blog with a depth of 5, collecting up to 500 pages, with a
 - Domain-specific rate limiting prevents overloading any single domain
 - Memory-efficient URL frontier with duplicate detection
 - Timeout handling for unresponsive servers
-
-## License
-
-MIT License 
