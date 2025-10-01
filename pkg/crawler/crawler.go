@@ -29,6 +29,7 @@ type Config struct {
 	StayOnDomain  bool
 	URLFilter     string
 	SeedOnly      bool
+	ExtractLinks  bool
 }
 
 type Statistics struct {
@@ -207,7 +208,7 @@ func (c *Crawler) processURL(urlStr string, depth int) {
 		return
 	}
 
-	result, err := parser.Parse(html, urlStr, c.config.NewsOnly)
+	result, err := parser.Parse(html, urlStr, c.config.NewsOnly, c.config.ExtractLinks)
 	if err != nil {
 		if c.config.Verbose {
 			fmt.Printf("Error parsing %s: %v\n", urlStr, err)

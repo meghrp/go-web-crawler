@@ -28,25 +28,28 @@ go build -o gocrawler
 ## Usage
 
 ### Available Flags
+
 ```
--seed        Required. Starting URL for crawling
--depth       Maximum link depth to crawl (default: 1)
--workers     Number of concurrent crawlers (default: 2)
--max         Maximum pages to crawl (default: 20)
--delay       Seconds between requests (default: 1)
--timeout     Request timeout in seconds (default: 10)
--format      Output format: json or csv (default: json)
--output      Output filename (default: results.json)
--agent       Custom User-Agent string (default: GoCrawler/1.0)
--robots      Respect robots.txt rules (default: true)
--news        Extract news article content (default: false)
--verbose     Show detailed output (default: false)
--stay-domain Stay on the same domain (default: true)
--filter      Only crawl URLs containing this string
--seed-only   Crawl only the seed URL (default: false)
+-seed         Required. Starting URL for crawling
+-depth        Maximum link depth to crawl (default: 1)
+-workers      Number of concurrent crawlers (default: 2)
+-max          Maximum pages to crawl (default: 20)
+-delay        Seconds between requests (default: 1)
+-timeout      Request timeout in seconds (default: 10)
+-format       Output format: json or csv (default: json)
+-output       Output filename (default: results.json)
+-agent        Custom User-Agent string (default: GoCrawler/1.0)
+-robots       Respect robots.txt rules (default: true)
+-news         Extract news article content (default: false)
+-verbose      Show detailed output (default: false)
+-stay-domain  Stay on the same domain (default: true)
+-filter       Only crawl URLs containing this string
+-seed-only    Crawl only the seed URL (default: false)
+-extract-links Extract links from crawled pages (default: false)
 ```
 
 ### Examples
+
 ```bash
 # Basic usage with a seed URL
 ./gocrawler -seed https://example.com
@@ -58,7 +61,7 @@ go build -o gocrawler
 ./gocrawler -seed https://example.com -workers 10
 
 # Increase crawl depth (default is 1)
-./gocrawler -seed https://example.com -depth 3 
+./gocrawler -seed https://example.com -depth 3
 
 # Set maximum pages to crawl (default is 20)
 ./gocrawler -seed https://example.com -max 50
@@ -91,6 +94,7 @@ go build -o gocrawler
 ## Default Behavior
 
 By default, the crawler:
+
 - Crawls only to a depth of 1 (the seed URL and direct links from it)
 - Stays within the same domain as the seed URL
 - Limits to a maximum of 20 pages
@@ -115,3 +119,24 @@ You can make the crawler even more focused by using the `-filter` option to only
 - Domain-specific rate limiting prevents overloading any single domain
 - Memory-efficient URL frontier with duplicate detection
 - Timeout handling for unresponsive servers
+
+## Limitations
+
+### JavaScript-Rendered Sites
+
+This crawler fetches and parses **static HTML only**. It does not execute JavaScript, which means:
+
+- **Single Page Applications (SPAs)** built with React, Vue, Angular, or similar frameworks will return minimal or no content
+- Sites built with tools like Vite, Create React App, Next.js (in client-side rendering mode), Gatsby (in CSR mode), etc. will appear mostly empty
+- Dynamic content loaded after page load via AJAX/fetch will not be captured
+
+**Example:** A React SPA might return only:
+
+```html
+<body>
+  <div id="root"></div>
+  <script src="/app.js"></script>
+</body>
+```
+
+The crawler will see the empty `<div id="root">` but won't execute the JavaScript that populates it with content.

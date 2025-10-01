@@ -16,7 +16,7 @@ type Result struct {
 	Links       []string
 }
 
-func Parse(htmlContent string, baseURL string, extractNewsContent bool) (*Result, error) {
+func Parse(htmlContent string, baseURL string, extractNewsContent bool, extractLinks bool) (*Result, error) {
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(htmlContent))
 	if err != nil {
 		return nil, err
@@ -82,27 +82,29 @@ func Parse(htmlContent string, baseURL string, extractNewsContent bool) (*Result
 		result.Content = mainContent.String()
 	}
 
-	doc.Find("a[href]").Each(func(i int, s *goquery.Selection) {
-		href, exists := s.Attr("href")
-		if !exists || href == "" || strings.HasPrefix(href, "#") {
-			return
-		}
+	if extractLinks {
+		doc.Find("a[href]").Each(func(i int, s *goquery.Selection) {
+			href, exists := s.Attr("href")
+			if !exists || href == "" || strings.HasPrefix(href, "#") {
+				return
+			}
 
-		absoluteURL, err := resolveURL(baseURL, href)
-		if err != nil {
-			return
-		}
+			absoluteURL, err := resolveURL(baseURL, href)
+			if err != nil {
+				return
+			}
 
-		if !strings.HasPrefix(absoluteURL, "http://") && !strings.HasPrefix(absoluteURL, "https://") {
-			return
-		}
+			if !strings.HasPrefix(absoluteURL, "http://") && !strings.HasPrefix(absoluteURL, "https://") {
+				return
+			}
 
-		if shouldSkipURL(absoluteURL) {
-			return
-		}
+			if shouldSkipURL(absoluteURL) {
+				return
+			}
 
-		result.Links = append(result.Links, absoluteURL)
-	})
+			result.Links = append(result.Links, absoluteURL)
+		})
+	}
 
 	return result, nil
 }

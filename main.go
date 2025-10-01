@@ -31,6 +31,7 @@ func main() {
 	stayOnDomain := flag.Bool("stay-domain", true, "Stay on the same domain as the seed URL")
 	urlFilter := flag.String("filter", "", "Only crawl URLs containing this string (e.g., '/wiki/')")
 	seedOnly := flag.Bool("seed-only", false, "Crawl only the seed URL, don't follow any links")
+	extractLinks := flag.Bool("extract-links", false, "Extract links from crawled pages")
 
 	flag.Parse()
 
@@ -73,6 +74,7 @@ func main() {
 		StayOnDomain:  *stayOnDomain,
 		URLFilter:     *urlFilter,
 		SeedOnly:      *seedOnly,
+		ExtractLinks:  *extractLinks,
 	}
 
 	c := crawler.New(crawlerConfig, urlFrontier, store)
