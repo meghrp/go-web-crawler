@@ -2,6 +2,22 @@
 
 A high-performance web crawler written in Go
 
+## API
+hosted on Cloud Run: https://crawler-api-999548517101.us-central1.run.app/
+
+## MCP server
+also deployed on Cloud Run. can be used in cursor or anything else, for exampple in cursor:
+```json
+{
+  "mcpServers": {
+    "go-web-crawler": {
+      "type": "sse",
+      "url": "https://mcp-server-h2hj5xygra-uc.a.run.app/sse"
+    }
+  }
+}
+```
+
 ## Features
 
 - Concurrent crawling using Go's goroutines and channels
