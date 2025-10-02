@@ -104,6 +104,82 @@ By default, the crawler:
 
 You can make the crawler even more focused by using the `-filter` option to only crawl URLs containing a specific string, or use `-seed-only` to crawl just the single URL you provide.
 
+## MCP Server Integration
+
+An **MCP (Model Context Protocol) server** is available that allows LLMs to use this web crawler directly! This enables natural language interaction with the crawler through tools like Cursor.
+
+**Features:**
+
+- Three tools for LLMs: `crawl_website`, `quick_scrape`, and `get_page_links`
+- Seamless integration with all crawler flags and options
+- Easy setup with Cursor and other MCP-compatible clients
+
+**Quick Start:**
+
+```bash
+# Install Python dependencies
+cd mcp-server
+pip install -r requirements.txt
+
+# See the MCP server README for Cursor configuration
+cat mcp-server/README.md
+```
+
+**Usage Example in Cursor:**
+
+```
+"Scrape example.com and extract all the links"
+"Crawl wikipedia.org starting from the Go page, only following /wiki/ links"
+```
+
+For complete setup instructions and usage examples, see [`mcp-server/README.md`](mcp-server/README.md).
+
+## REST API & Cloud Deployment
+
+The crawler is also available as a **public REST API** that can be deployed to the cloud with auto-scaling!
+
+**Features:**
+
+- FastAPI-based HTTP endpoints
+- Full Swagger/OpenAPI documentation
+- Containerized with Docker
+- Deployable to Google Cloud Run
+- Auto-scales from 0 to 1000s of instances
+- Both REST API and remote MCP server
+
+**Quick Deploy:**
+
+```bash
+# Deploy to Google Cloud Run
+./deploy.sh YOUR_PROJECT_ID us-central1
+```
+
+**Local Testing:**
+
+```bash
+# Run with Docker Compose
+docker-compose up
+```
+
+**REST API Endpoints:**
+
+- `POST /crawl` - Full website crawling
+- `POST /scrape` - Quick single-page scrape
+- `POST /links` - Extract links only
+- `GET /health` - Health check
+- `GET /` - Interactive API docs
+
+**Usage Example:**
+
+```bash
+curl -X POST https://your-api-url/scrape \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com"}'
+```
+
+**Complete deployment guide:** See [`DEPLOYMENT.md`](DEPLOYMENT.md)  
+**API documentation:** See [`api/README.md`](api/README.md)
+
 ## Project Structure
 
 - `main.go`: Entry point and command-line interface
@@ -112,6 +188,11 @@ You can make the crawler even more focused by using the `-filter` option to only
 - `pkg/parser`: HTML parsing and content extraction
 - `pkg/robotstxt`: Robots.txt parser and cache
 - `pkg/storage`: Data storage implementations (JSON and CSV)
+- `api/`: FastAPI REST API server
+- `mcp-server/`: MCP server for LLM integration (local and remote)
+- `docker-compose.yml`: Local development environment
+- `deploy.sh`: Cloud deployment automation
+- `DEPLOYMENT.md`: Complete deployment guide
 
 ## Performance Considerations
 
