@@ -1,0 +1,50 @@
+.gcloudignore
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv/
+mcp-server/venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Go
+*.exe
+*.test
+*.out
+
+# Results and logs
+results.json
+*.csv
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Documentation (built separately)
+# README.md
+# DEPLOYMENT.md
+# *.md
+
+# Docker
+docker-compose.yml
+*_test.go
+
+# Local development
+go.work
+.env
+.env.local
+

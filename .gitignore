@@ -13,3 +13,18 @@ go.work
 *.swp
 *.swo
 .DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv/
+mcp-server/venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/

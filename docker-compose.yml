@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  # Crawler REST API
+  crawler-api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - LOG_LEVEL=INFO
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - crawler-network
+
+  # MCP Server (HTTP/SSE)
+  mcp-server:
+    build:
+      context: mcp-server
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - CRAWLER_API_URL=http://crawler-api:8080
+    depends_on:
+      - crawler-api
+    networks:
+      - crawler-network
+
+networks:
+  crawler-network:
+    driver: bridge
